@@ -84,6 +84,7 @@ class BaseQuantizeExportor():
 
     def parse_qparams(self, node):
         tensor_name, scale, zero_point = node.input[:3]
+        # import pdb;pdb.set_trace()
 
         scale, zero_point = self.name2data[scale], self.name2data[zero_point]
         if len(node.input) > 3:

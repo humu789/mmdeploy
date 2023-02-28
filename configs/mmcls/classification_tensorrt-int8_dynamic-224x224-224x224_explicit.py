@@ -26,11 +26,21 @@ global_qconfig=dict(
         is_symmetry=True,
         is_symmetric_range=True),
     a_qscheme=dict(
-        qdtype='qint8',
+        qdtype='quint8',
         bit=8,
         is_symmetry=True,
         averaging_constant=0.1),
 )
+
+# global_qconfig = dict(
+#     w_observer=dict(type='mmrazor.LSQPerChannelObserver'),
+#     a_observer=dict(type='mmrazor.LSQObserver'),
+#     w_fake_quant=dict(type='mmrazor.LearnableFakeQuantize'),
+#     a_fake_quant=dict(type='mmrazor.LearnableFakeQuantize'),
+#     w_qscheme=dict(
+#         qdtype='qint8', bit=8, is_symmetry=True, is_symmetric_range=True),
+#     a_qscheme=dict(qdtype='qint8', bit=8, is_symmetry=True),
+# )
 
 quantizer=dict(
     type='mmrazor.TensorRTQuantizer',
@@ -44,4 +54,5 @@ quantizer=dict(
     )
 )
 
-checkpoint='/mnt/petrelfs/humu/mmrazor/work_dirs/ptq_tensorrt_resnet18_8xb32_in1k_calib32xb32/model_ptq_deploy.pth'
+# checkpoint='/nvme/humu/experiments/r18_trt/model_ptq_deploy.pth'
+checkpoint=None
