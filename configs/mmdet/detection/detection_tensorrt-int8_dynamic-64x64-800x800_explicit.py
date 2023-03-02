@@ -1,6 +1,7 @@
-_base_ = ['./classification_dynamic.py', '../_base_/backends/tensorrt.py']
+_base_ = [
+    '../_base_/base_dynamic.py', '../../_base_/backends/tensorrt.py'
+]
 
-onnx_config = dict(input_shape=[224, 224])
 backend_config = dict(
     common_config=dict(
         max_workspace_size=1 << 30,
@@ -10,9 +11,9 @@ backend_config = dict(
         dict(
             input_shapes=dict(
                 input=dict(
-                    min_shape=[1, 3, 224, 224],
-                    opt_shape=[4, 3, 224, 224],
-                    max_shape=[8, 3, 224, 224])))
+                    min_shape=[1, 3, 64, 64],
+                    opt_shape=[1, 3, 640, 640],
+                    max_shape=[1, 3, 800, 800])))
     ])
 
 global_qconfig = dict(
@@ -32,10 +33,8 @@ quantizer=dict(
     tracer=dict(
         type='mmrazor.CustomTracer',
         skipped_methods=[
-            'mmcls.models.heads.ClsHead._get_loss',
-            'mmcls.models.heads.ClsHead._get_predictions'
-        ]
-    )
-)
+            'mmdet.models.dense_heads.base_dense_head.BaseDenseHead.predict_by_feat',  # noqa: E501
+            'mmdet.models.dense_heads.anchor_head.AnchorHead.loss_by_feat',
+        ]))
 
-checkpoint='/nvme/humu/experiments/mbv2_trt/model_ptq_deploy.pth'
+checkpoint='/nvme/humu/experiments/retina_trt/model_ptq_deploy.pth'
